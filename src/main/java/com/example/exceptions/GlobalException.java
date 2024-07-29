@@ -1,0 +1,27 @@
+package com.example.exceptions;
+
+import com.example.payload.ApiResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.Optional;
+
+@RestControllerAdvice
+public class GlobalException {
+
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public Optional<ApiResponse> handleResourceNotFoundException(ResourceNotFoundException ex)
+    {
+        String message=ex.getMessage();
+        ApiResponse response=ApiResponse.builder().message(message).success(true).status(HttpStatus.NOT_FOUND).build();
+        return Optional.ofNullable(new ResponseEntity<>(response, HttpStatus.NOT_FOUND).getBody());
+
+    }
+
+
+
+
+}
